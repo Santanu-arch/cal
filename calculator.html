@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    .calculator {
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      width: 260px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    #screen {
+      width: 240px;
+      height: 40px;
+      font-size: 24px;
+      text-align: right;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      font-size: 18px;
+      padding: 20px;
+      background-color: #f1f1f1;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #e0e0e0;
+    }
+
+    button:active {
+      background-color: #d0d0d0;
+    }
+
+    button:focus {
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <input type="text" id="screen" disabled>
+    <div class="buttons">
+      <button>7</button>
+      <button>8</button>
+      <button>9</button>
+      <button>/</button>
+      <button>4</button>
+      <button>5</button>
+      <button>6</button>
+      <button>*</button>
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>-</button>
+      <button>0</button>
+      <button>.</button>
+      <button>=</button>
+      <button>+</button>
+      <button>(</button>
+      <button>)</button>
+      <button>D</button>
+      <button>C</button>
+    </div>
+  </div>
+
+  <script>
+    let screen = document.getElementById("screen");
+    let buttons = document.querySelectorAll("button");
+    let screenvalue = "";
+    let refreshNextClick = false;
+    
+    for (item of buttons) {
+      item.addEventListener("click", function (e) {
+    
+        let buttontext = e.target.innerText;
+        console.log(buttontext);
+    
+        if (buttontext == "D") {
+          // Delete the last character
+          screenvalue = screenvalue.slice(0, -1);
+          screen.value = screenvalue;
+        }
+    
+        else if (buttontext == "C") {
+          // Clear the screen
+          screenvalue = "";
+          screen.value = screenvalue;
+        }
+    
+        else if (buttontext == "=") {
+          // Evaluate the expression and set the result as screen value
+          screen.value = eval(screenvalue);
+          screenvalue = screen.value;  // Keep the result in screenvalue for further calculations
+        }
+    
+        else {
+          // Append the button value to the current screen value
+          if (refreshNextClick) {
+            screenvalue = buttontext;
+            refreshNextClick = false;
+          } else {
+            screenvalue += buttontext;
+          }
+          screen.value = screenvalue;
+        }
+      });
+    }
+  </script>
+</body>
+</html>
